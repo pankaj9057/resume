@@ -194,7 +194,7 @@ function renderWebView() {
     resumeState.skills.forEach(group => {
         group.list.forEach(skill => {
             const pill = document.createElement('span');
-            pill.className = "px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-colors duration-200 cursor-default";
+            pill.className = "px-3 py-1.5 text-xs font-semibold bg-white/10 text-slate-100 rounded-lg border border-white/15 hover:bg-blue-500/25 hover:border-blue-300/40 hover:text-white transition-all duration-200 cursor-default";
             pill.innerText = skill;
             skillsList.appendChild(pill);
         });
@@ -218,14 +218,14 @@ function renderWebView() {
 
     resumeState.expertise.forEach(item => {
         const card = document.createElement('div');
-        card.className = "flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 hover:border-blue-500/30 dark:hover:border-blue-500/30 hover:shadow-sm transition-all duration-200 group";
+        card.className = "flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-blue-300/35 hover:bg-white/10 transition-all duration-200 group";
         const iconClass = expertiseIcons[item] || "fa-solid fa-square-check text-blue-500";
 
         card.innerHTML = `
-            <div class="w-8 h-8 rounded-lg bg-white dark:bg-slate-950 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200 flex-shrink-0">
+            <div class="w-8 h-8 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 flex-shrink-0">
                 <i class="${iconClass} text-xs"></i>
             </div>
-            <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors leading-snug">${item}</span>
+            <span class="text-xs font-semibold text-slate-100 group-hover:text-white transition-colors leading-snug">${item}</span>
         `;
         expertList.appendChild(card);
     });
@@ -235,13 +235,13 @@ function renderWebView() {
     awardsList.innerHTML = '';
     resumeState.awards.forEach(award => {
         const item = document.createElement('div');
-        item.className = "p-3 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800";
+        item.className = "p-3 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 hover:border-amber-300/30 transition-all duration-200";
         item.innerHTML = `
-            <div class="flex justify-between text-xs text-blue-500 font-bold">
+            <div class="flex justify-between text-xs text-amber-300 font-bold">
                 <span>${award.date}</span>
             </div>
-            <h4 class="text-xs font-black text-slate-800 dark:text-slate-200 mt-1">${award.title}</h4>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">${award.institution}</p>
+            <h4 class="text-xs font-black text-white mt-1">${award.title}</h4>
+            <p class="text-[11px] text-slate-300 mt-0.5">${award.institution}</p>
         `;
         awardsList.appendChild(item);
     });
@@ -249,12 +249,15 @@ function renderWebView() {
     // Achievements List
     const achievementsList = document.getElementById('webAchievementsList');
     achievementsList.innerHTML = '';
-    resumeState.achievements.forEach(ach => {
+    resumeState.achievements.forEach((ach, idx) => {
         const item = document.createElement('div');
-        item.className = "flex items-start gap-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed";
+        item.className = "group flex items-start gap-2.5 text-xs text-slate-100 leading-relaxed p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-blue-300/30 transition-all duration-200";
         item.innerHTML = `
-            <i class="fa-solid fa-circle-check text-blue-500 mt-0.5 flex-shrink-0"></i>
-            <span>${ach}</span>
+            <span class="w-6 h-6 rounded-full bg-amber-300/20 border border-amber-200/30 text-amber-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-trophy text-[10px]"></i>
+            </span>
+            <span class="flex-1">${ach}</span>
+            <span class="text-[10px] font-bold text-blue-200/75">#${idx + 1}</span>
         `;
         achievementsList.appendChild(item);
     });
@@ -263,11 +266,11 @@ function renderWebView() {
     const eduCont = document.getElementById('webEducationContainer');
     const edu = resumeState.education;
     eduCont.innerHTML = `
-        <div class="relative">
-            <p class="text-xs font-bold text-blue-500">${edu.dates}</p>
-            <h4 class="text-sm font-black text-slate-900 dark:text-white mt-0.5">${edu.degree}</h4>
-            <p class="text-xs text-slate-700 dark:text-slate-300">${edu.institution}</p>
-            <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot text-[10px] mr-1"></i>${edu.location}</p>
+        <div class="relative p-3 rounded-2xl bg-white/5 border border-white/10">
+            <p class="text-xs font-bold text-indigo-300">${edu.dates}</p>
+            <h4 class="text-sm font-black text-white mt-0.5">${edu.degree}</h4>
+            <p class="text-xs text-slate-200">${edu.institution}</p>
+            <p class="text-xs text-slate-300 mt-1"><i class="fa-solid fa-location-dot text-[10px] mr-1 text-indigo-300"></i>${edu.location}</p>
         </div>
     `;
 

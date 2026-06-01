@@ -1,0 +1,17 @@
+{
+  "name": "resume-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "interactive_resume_workspace_v2.js",
+  "scripts": {
+    "build:css": "npx tailwindcss -c ./tailwind.config.js -i ./tailwind.input.css -o ./interactive_resume_workspace_v2.tailwind.css --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

@@ -12,22 +12,36 @@ async function loadResumeData() {
 let resumeState = {};
 let activeProjectFilter = 'all';
 
+function isValidResumeState(data) {
+    return !!(data && typeof data === 'object' && data.personal && typeof data.personal === 'object');
+}
+
 // Initialization hook
 window.addEventListener('DOMContentLoaded', async () => {
-    let saved = localStorage.getItem('pankaj_resume_data');
+    const savedRaw = localStorage.getItem('pankaj_resume_data');
+    let hasValidSavedState = false;
 
-    if (saved) {
+    if (savedRaw) {
         try {
-            resumeState = JSON.parse(saved);
+            const parsed = JSON.parse(savedRaw);
+            if (isValidResumeState(parsed)) {
+                resumeState = parsed;
+                hasValidSavedState = true;
+            } else {
+                localStorage.removeItem('pankaj_resume_data');
+            }
         } catch (e) {
-            saved = null;
+            localStorage.removeItem('pankaj_resume_data');
         }
     }
 
-    if (!saved) {
+    if (!hasValidSavedState) {
         try {
             if (!originalResumeData) {
                 originalResumeData = await loadResumeData();
+            }
+            if (!isValidResumeState(originalResumeData)) {
+                throw new Error('Resume JSON is malformed. Expected object with personal section.');
             }
             resumeState = JSON.parse(JSON.stringify(originalResumeData));
         } catch (e) {
@@ -587,8 +601,8 @@ function renderPdfView() {
             </div>
         `;
 
-        // Split threshold lowered to "idx < 2" so Nationwide MDC fits perfectly at the top of Page 3
-        if (idx < 2) {
+        // Split threshold lowered to "idx < 3" so Nationwide MDC fits perfectly at the top of Page 3
+        if (idx < 3) {
             p2Proj.appendChild(block);
         } else {
             p3Proj.appendChild(block);

@@ -1,0 +1,90 @@
+/* PDF Specific Print Styling mimicking typical multi-page A4 layouts */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .print-page {
+        width: 210mm !important;
+        height: 297mm !important;
+        padding: 10mm !important; /* Balanced margins to prevent overflow with larger text */
+        margin: 0 auto !important;
+        page-break-after: always !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: white !important;
+        color: black !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important; /* Prevent text overflow spilling onto adjacent print pages */
+    }
+    .print-page:last-child {
+        page-break-after: avoid !important;
+    }
+}
+
+/* Screen-based PDF visual layout resembling real A4 sheets */
+.print-page {
+    width: 210mm;
+    height: 297mm;
+    padding: 8mm; /* Slightly reduced padding to offset the 2-size-bigger font and prevent overflow */
+    box-sizing: border-box;
+    background: white;
+    color: #1e293b;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; /* Guarantee that on-screen overflow never overlaps adjacent pages */
+}
+
+/* Customize scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+.dark ::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+/* Edit border highlight */
+.editable-field {
+    transition: all 0.15s ease-in-out;
+    border-radius: 4px;
+}
+.editable-field:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+    outline: 1px dashed rgba(59, 130, 246, 0.3);
+    cursor: text;
+}
+.editable-field:focus {
+    outline: 2px dashed #2563eb;
+    background-color: rgba(59, 130, 246, 0.08);
+    padding: 2px 4px;
+}
+
+/* Highlighting transition glows */
+.skill-glow-active {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.45);
+    border-color: #2563eb !important;
+    transform: translateY(-2px);
+}
+
+/* Scroll-Spy Floating Dot Tracker active style */
+.scrollspy-dot.active {
+    background-color: #3b82f6;
+    transform: scale(1.3);
+}

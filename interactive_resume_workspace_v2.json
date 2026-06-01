@@ -1,0 +1,242 @@
+{
+  "personal": {
+    "name": "PANKAJ KUMAR",
+    "title": "Senior Software Engineer",
+    "summary": "Seasoned Software Engineer, over 10 years of coding experience with technical knowledge and training to meet customer specifications and project goals. History maintaining clear and complete documentation investigating and solving issues and correcting performance problems. Understands and meets technical requirements.",
+    "email": "pankaj9057@gmail.com",
+    "phone": "+44 7879280471",
+    "location": "Swindon, UK",
+    "linkedin": "linkedin.com/in/pankaj9057"
+  },
+  "expertise": [
+    "Proficient Troubleshooting",
+    "Team Leadership & Supervision",
+    "Application Upgrade",
+    "Software Development Lifecycle",
+    "Development Technical Process Improvement",
+    "Scrum & Agile Methodologies",
+    "RnD on New Technologies",
+    "TDD and BDD",
+    "Design Pattern"
+  ],
+  "experience": [
+    {
+      "role": "Senior Developer",
+      "company": "Transport for London",
+      "dates": "04/2024-Present",
+      "location": "London (North Greenwich)",
+      "description": "Transport for London (TfL) is a local government body responsible for most of the transport network in London",
+      "subtitle": "Achievements/Tasks",
+      "bullets": [
+        "Developed and improved Personal and Fleet AutoPay charge platform for congestion Charge.",
+        "Migrated 10+ component of AutoPay to Net 8.",
+        "Proficiently troubleshot simple and complex technological issues for different assigned projects, achieving over high customer satisfaction rate."
+      ]
+    },
+    {
+      "role": "Software Engineer",
+      "company": "Aviva",
+      "dates": "02/2023-03/2024",
+      "location": "Swindon/Norwich",
+      "description": "Activities Managed",
+      "bullets": [
+        "Worked in an Agile team of .NET developers for a fast-paced software development firm.",
+        "Migrated 20+ component of Broker project to .Net 6.",
+        "Applied reporting solutions for intermediary to support process requirements, which increased operational efficiency by ~10%."
+      ]
+    },
+    {
+      "role": "Full Stack.Net Developer",
+      "company": "Accenture Solution Pvt. Ltd",
+      "dates": "08/2018-02/2023",
+      "location": "Gurugram/Swindon",
+      "description": "Activities Managed",
+      "bullets": [
+        "Provided prompt solutions and proactive troubleshooting support to swiftly resolve subtle and complex issues as the Team Lead of the software engineering team.",
+        "Documented all supported systems and applications to effectively train the new and existing team members.",
+        "Determined areas for improvements by periodically monitoring the current company systems to consistently boost business efficiency.",
+        "Established and utilized strategic methodologies to efficiently analyze the client's database and develop mapping specifications.",
+        "Led the onshore and offshore application development team to verify adherence to the highest level of quality standards while also ensuring that all requirements are accurately met."
+      ]
+    },
+    {
+      "role": "MVC.Net Senior Software Developer",
+      "company": "Orgamation Technologies",
+      "dates": "01/2016-07/2018",
+      "location": "Jaipur",
+      "description": "Activities Managed",
+      "bullets": [
+        "Supervised and lead a team of 5 junior software engineers during the development of a robust upgrade version of the company's software applications, resulting in improved user experience and a 33% revenue increase within 8 months.",
+        "Demonstrated expertise in translating the client's specific needs into easy-to-understand software solutions during sales presentations, leading to the successful closing of 7 major contracts generating over $120K in business revenue.",
+        "Enhanced the application's features to effectively fix the bugs and optimize the overall performance, reliability, and efficiency.",
+        "Utilized software engineering expertise to develop products throughout the software lifecycle to boost business efficiency, from ideation and requirements definition through to development and successful deployment."
+      ]
+    },
+    {
+      "role": "Software Developer",
+      "company": "AKAL Information Systems Ltd",
+      "dates": "06/2014-12/2015",
+      "location": "Jaipur",
+      "description": "Activities Managed",
+      "bullets": [
+        "Modified HTML, JavaScript, and CSS web pages to optimize the page's performance for faster loading and browsing.",
+        "Utilized strategic engineering procedures to maintain and improve the company's point of MIS system features that were built through Asp.Net c# and VB languages.",
+        "Designed and executed a brand-new customer resolution management tool through.Net MVC and JQuery to efficiently monitor, encode, and resolve customer questions/concerns."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "category": "Frameworks & Standards",
+      "list": [
+        ".Net 8",
+        "ASP.Net MVC",
+        "ADO.Net",
+        "ASP.Net"
+      ]
+    },
+    {
+      "category": "Enterprise Services",
+      "list": [
+        "WCF",
+        "Web Api",
+        "Web Services"
+      ]
+    },
+    {
+      "category": "Databases & Storage",
+      "list": [
+        "MSSQL",
+        "MySQL",
+        "Cosmos"
+      ]
+    },
+    {
+      "category": "Markup & Layouts",
+      "list": [
+        "XML",
+        "HTML",
+        "CSS",
+        "Bootstrap"
+      ]
+    },
+    {
+      "category": "Reporting Engines",
+      "list": [
+        "SSIS",
+        "SSRS"
+      ]
+    },
+    {
+      "category": "Testing Frameworks",
+      "list": [
+        "NUnit 3.0",
+        "XUnit",
+        "Moq",
+        "Rhino Mock"
+      ]
+    },
+    {
+      "category": "Scripting & Frontend",
+      "list": [
+        "Java Script",
+        "JQuery"
+      ]
+    },
+    {
+      "category": "Programming Languages",
+      "list": [
+        "C#",
+        "Entity Framework"
+      ]
+    },
+    {
+      "category": "Cloud & Serverless",
+      "list": [
+        "Azure Functions"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "TFL AutoPay",
+      "dates": "04/2024 - Present",
+      "description": "With Auto Pay, we'll bill you automatically for the number of charging days your vehicle travels within the Congestion Charge area and, if it doesn't meet the standards, the Low Emission Zone (LEZ) and Ultra Low Emission Zone (ULEZ).",
+      "tech": "Net 8, C#, Azure Functions (Servicebus, DB & Http Trigers), Cosmos DB.",
+      "categories": [
+        "net",
+        "azure"
+      ]
+    },
+    {
+      "title": "Aviva Broker",
+      "dates": "02/2023 - 03/2024",
+      "description": "Aviva Broker application is dedicated to broker and intermediary to help online customer who require assistance.",
+      "tech": "Net 6, C#, MVC 5. Net Api, Postrage Sql, Javascript and JQuery.",
+      "categories": [
+        "net",
+        "sql",
+        "web"
+      ]
+    },
+    {
+      "title": "Nationwide MDC",
+      "dates": "08/2018 - 02/2023",
+      "description": "The world's largest building society, run for the benefit of its members. Helping you with current account, mortgage, savings and other personal finance needs.",
+      "tech": "Net 6, C#, MVC 5. WCF, SQL, Workflow 3. SSIS, InRule and Jquery.",
+      "categories": [
+        "net",
+        "sql",
+        "web"
+      ]
+    },
+    {
+      "title": "iCare Child Management System and School ERP Solution",
+      "dates": "01/2016 - 07/2018",
+      "description": "iCare Software is a cloud-based web application, to ease the administrative and managerial tasks of the education centers worldwide. A Child care management software to manage enrollments, scheduling, attendance, accounting, payments, and parent-teacher communication at registered institution.",
+      "tech": "C#. MVC 5. WCF, SQL, Workflow 3. Angular JS. TypeScript & Jquery.",
+      "categories": [
+        "net",
+        "sql",
+        "web"
+      ]
+    },
+    {
+      "title": "Rajasthan State Pollution Control Board Management Information System",
+      "dates": "06/2014 - 12/2015",
+      "description": "RSPCBMIS is used to analyze and facilitate strategic and operational activities of organization including Accounts, Waste management, Technical operation, Laboratory management, Personal Info System, File Tracking Systems, Water Cess and Library management.",
+      "tech": "C#, MVC 3. Ajax. JavaScript, jquery and Web services.",
+      "categories": [
+        "sql",
+        "web"
+      ]
+    }
+  ],
+  "achievements": [
+    "Improved payment failure and stuck issue, resulting in increased workplace efficiency and reduced monthly labor costs of ~£1,200.",
+    "Improved payment security (Confidential)"
+  ],
+  "awards": [
+    {
+      "title": "Critical Software Engineer Talent Award",
+      "date": "08/2020",
+      "institution": "Accenture Solution Pvt Ltd"
+    },
+    {
+      "title": "Extra Mile Achiever",
+      "date": "02/2022",
+      "institution": "Nationwide MDC"
+    },
+    {
+      "title": "Project Champion",
+      "date": "04/2021",
+      "institution": "Accenture Solution Pvt. Ltd."
+    }
+  ],
+  "education": {
+    "degree": "B. Tech",
+    "institution": "Hindustan University",
+    "dates": "2010-2014",
+    "location": "Chennai, India"
+  }
+}

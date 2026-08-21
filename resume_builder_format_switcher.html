@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Resume Builder & Format Switcher</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f172a;
+      color: #334155;
+    }
+
+    /* Print styling & optimized multi-page break controls */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 12mm 12mm 12mm 12mm !important; /* Standard browser print margin prevents edge clipping */
+      }
+      
+      html, body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .print-container {
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        outline: none !important;
+        background: transparent !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+
+      .resume-paper {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 0 !important;
+        height: auto !important;
+        box-shadow: none !important;
+        border: none !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #ffffff !important;
+        box-sizing: border-box !important;
+        overflow: visible !important;
+        transform: scale(var(--print-scale, 1)) !important;
+        transform-origin: top left !important;
+      }
+
+      /* Section Table & Card Page Break Safety */
+      table.print-section-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin-bottom: 0.5rem !important;
+      }
+      table.print-section-table thead {
+        display: table-header-group !important;
+      }
+      table.print-section-table tbody {
+        display: table-row-group !important;
+      }
+
+      /* Strict prevention of element slicing across pages */
+      .break-inside-avoid,
+      .experience-card,
+      .project-card,
+      .education-card,
+      .award-card,
+      tr, li, .section-block {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        -webkit-column-break-inside: avoid !important;
+      }
+
+      h1, h2, h3, h4, .section-title {
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+      }
+
+      /* Responsive column flex layout for print engines */
+      .print-grid-flow {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 1.25rem !important;
+        align-items: flex-start !important;
+      }
+      .print-grid-flow > .col-span-8 {
+        width: 64% !important;
+        flex: 0 0 64% !important;
+      }
+      .print-grid-flow > .col-span-4 {
+        width: 33% !important;
+        flex: 0 0 33% !important;
+      }
+
+      /* Prevent line orphans and widows at page bottom */
+      p, ul, li {
+        orphans: 3;
+        widows: 3;
+      }
+
+      /* Manual forced page break helper class */
+      .page-break-before {
+        break-before: page !important;
+        page-break-before: always !important;
+      }
+    }
+
+    /* Screen Preview Paper Simulation */
+    .resume-paper {
+      width: 210mm;
+      min-height: 297mm;
+      background: #ffffff;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+      margin: 0 auto;
+      box-sizing: border-box;
+      padding: 12mm 14mm;
+      transition: all 0.2s ease-in-out;
+    }
+
+    /* Density modifiers */
+    .density-compact { font-size: 0.82rem; line-height: 1.25; }
+    .density-compact .experience-card, .density-compact .project-card { margin-bottom: 0.5rem; }
+    
+    .density-normal { font-size: 0.88rem; line-height: 1.4; }
+    .density-normal .experience-card, .density-normal .project-card { margin-bottom: 0.85rem; }
+
+    .density-relaxed { font-size: 0.95rem; line-height: 1.5; }
+    .density-relaxed .experience-card, .density-relaxed .project-card { margin-bottom: 1.2rem; }
+
+    /* Custom Scrollbar for Form Sidebar */
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #1e293b;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- Top Bar Controls -->
+  <header class="no-print bg-slate-900 border-b border-slate-800 sticky top-0 z-50 text-white px-4 py-3 shadow-lg">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="bg-indigo-600 p-2 rounded-lg text-white font-bold text-lg">
+          <i class="fa-solid fa-file-invoice"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-base leading-tight">Interactive Resume Builder</h1>
+          <p class="text-xs text-slate-400">Multi-Format & Auto-Repeating Page Breaks</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center bg-slate-800 border border-slate-700 rounded-lg px-2 py-1 gap-1 text-xs">
+          <span class="text-slate-400 font-medium"><i class="fa-solid fa-magnifying-glass"></i> Fit:</span>
+          <select id="scaleSelect" onchange="setPrintScale(this.value)" class="bg-slate-900 text-slate-200 border-none outline-none rounded text-xs px-1 py-0.5 cursor-pointer">
+            <option value="1.0">100% (Default)</option>
+            <option value="0.95">95% (Fit More)</option>
+            <option value="0.90">90% (Compact)</option>
+            <option value="0.85">85% (Ultra Fit)</option>
+          </select>
+        </div>
+        <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition shadow-md">
+          <i class="fa-solid fa-print"></i> Print / Export PDF
+        </button>
+        <button onclick="exportJSON()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-download"></i> Save Data
+        </button>
+        <label class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-1.5 transition cursor-pointer">
+          <i class="fa-solid fa-upload"></i> Load JSON
+          <input type="file" id="jsonInput" onchange="importJSON(event)" class="hidden" accept=".json" />
+        </label>
+        <button onclick="resetData()" class="bg-rose-900/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/50 px-3 py-2 rounded-lg text-xs font-medium transition">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid Layout -->
+  <div class="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-7xl w-full mx-auto p-4 gap-6">
+
+    <!-- Sidebar Editor Panel (Left) -->
+    <aside class="no-print w-full lg:w-[420px] bg-slate-900 border border-slate-800 rounded-xl flex flex-col h-[calc(100vh-100px)] shadow-xl">
+      
+      <!-- Editor Navigation Tabs -->
+      <div class="flex border-b border-slate-800 bg-slate-950/50 p-1 rounded-t-xl overflow-x-auto text-xs font-medium text-slate-400">
+        <button onclick="switchTab('personal')" id="tab-personal" class="flex-1 min-w-[70px] py-2 px-1 text-center rounded-lg transition text-indigo-400 bg-slate-800 font-semibold">
+          <i class="fa-solid fa-user block mb-1"></i> Profile
+        </button>
+        <button onclick="switchTab('experience')" id="tab-experience" class="flex-1 min-w-[70px] py-2 px-1 text-center rounded-lg transition hover:text-slate-200">
+          <i class="fa-solid fa-briefcase block mb-1"></i> Jobs
+        </button>
+        <button onclick="switchTab('projects')" id="tab-projects" class="flex-1 min-w-[70px] py-2 px-1 text-center rounded-lg transition hover:text-slate-200">
+          <i class="fa-solid fa-diagram-project block mb-1"></i> Projects
+        </button>
+        <button onclick="switchTab('skills')" id="tab-skills" class="flex-1 min-w-[70px] py-2 px-1 text-center rounded-lg transition hover:text-slate-200">
+          <i class="fa-solid fa-code block mb-1"></i> Skills
+        </button>
+        <button onclick="switchTab('settings')" id="tab-settings" class="flex-1 min-w-[70px] py-2 px-1 text-center rounded-lg transition hover:text-slate-200">
+          <i class="fa-solid fa-sliders block mb-1"></i> Format
+        </button>
+      </div>
+
+      <!-- Editor Content Form Area -->
+      <div class="flex-1 overflow-y-auto p-4 space-y-4 custom-scroll text-xs text-slate-300" id="editorForm">
+        <!-- Form rendered dynamically by JavaScript -->
+      </div>
+    </aside>
+
+    <!-- Resume Live Preview Canvas (Right) -->
+    <main class="flex-1 bg-slate-800/60 border border-slate-700/50 rounded-xl p-4 lg:p-6 overflow-y-auto custom-scroll flex justify-center items-start print-container">
+      <div id="resumePreview" class="resume-paper">
+        <!-- Live resume rendered dynamically -->
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    // Global Resume State
+    const initialData = {
+      personal: {
+        name: "PANKAJ KUMAR",
+        title: "Senior .NET Developer / Technical Lead",
+        email: "pankaj9057@gmail.com",
+        phone: "+44 7879280471",
+        location: "Swindon, UK",
+        linkedin: "linkedin.com/in/pankaj9057",
+        summary: "Accomplished Senior .NET Developer & Technical Lead with over 12 years of experience architecting, engineering, and scaling high-performance enterprise applications and cloud-native solutions. Proven expert in C#, .NET 8, Azure serverless microservices, and high-concurrency APIs powering critical UK public infrastructure and financial systems. Track record of successfully leading cross-functional Agile teams, modernizing complex legacy platforms, and optimizing database performance."
+      },
+      expertise: [
+        "Cloud-Native Azure Architecture",
+        "Enterprise Microservices",
+        "High-Concurrency API Design",
+        "Legacy Platform Modernization",
+        "Database Performance Tuning",
+        "Technical Team Leadership",
+        "Agile & Scrum Delivery",
+        "TDD, BDD & Quality Assurance",
+        "CI/CD & DevOps Integration"
+      ],
+      skills: [
+        ".NET 8 / .NET Core", "C#", "ASP.NET Core MVC", "Web API / RESTful Services",
+        "Azure Functions", "Cosmos DB", "MSSQL Server", "Entity Framework Core",
+        "Azure Service Bus", "Microservices Architecture", "PostgreSQL", "WCF / ADO.NET",
+        "JavaScript / jQuery", "HTML5 / CSS3 / Bootstrap", "xUnit / NUnit / Moq",
+        "SSIS / SSRS", "Git / Azure DevOps", "CI/CD Pipelines"
+      ],
+      experiences: [
+        {
+          role: "Senior Developer",
+          company: "Transport for London",
+          location: "London (North Greenwich)",
+          period: "04/2024 - Present",
+          bullets: [
+            "Architected and deployed cloud-native serverless Azure Function microservices (C# / .NET 8) powering the TfL Go mobile app backend, serving real-time journey planning and status updates to millions of daily active commuters.",
+            "Engineered high-throughput Cosmos DB data models and custom partition key strategies, maintaining sub-second API response latencies during peak concurrency.",
+            "Developed and enhanced core modules for Personal and Fleet AutoPay platforms handling Congestion Charge, LEZ, and ULEZ compliance.",
+            "Spearheaded the end-to-end modernization and migration of 20+ legacy components to .NET 8, achieving a 25% reduction in cloud compute costs and accelerating throughput.",
+            "Led root-cause analysis and complex technical troubleshooting across mission-critical transport infrastructure, consistently meeting strict enterprise SLAs."
+          ]
+        },
+        {
+          role: "Software Engineer",
+          company: "Aviva",
+          location: "Swindon / Norwich",
+          period: "02/2023 - 03/2024",
+          bullets: [
+            "Engineered scalable, high-availability software solutions within an Agile team supporting core insurance platforms.",
+            "Modernized 20+ legacy backend components of the Broker platform to .NET 6, decreasing transaction processing latency by 30% and eliminating technical debt.",
+            "Designed and implemented custom operational reporting solutions for broker intermediaries, boosting overall operational efficiency by ~10%."
+          ]
+        },
+        {
+          role: "Full Stack .Net Developer / Team Lead",
+          company: "Accenture Solution Pvt. Ltd",
+          location: "Gurugram / Swindon",
+          period: "08/2018 - 02/2023",
+          bullets: [
+            "Served as Technical Lead guiding cross-functional onshore and offshore engineering teams in delivering financial application services for Nationwide MDC.",
+            "Architected robust, scalable backend services utilizing .NET Core, WCF, and SQL Server to process core banking, mortgage, and savings workflows.",
+            "Established comprehensive technical documentation and system architecture guidelines, cutting new engineer onboarding time by 40%.",
+            "Monitored production environments periodically to identify performance bottlenecks and execute targeted refactoring initiatives."
+          ]
+        },
+        {
+          role: "MVC .Net Senior Software Developer",
+          company: "Orgamation Technologies",
+          location: "Jaipur, India",
+          period: "01/2016 - 07/2018",
+          bullets: [
+            "Supervised a team of 5 software engineers during a full-scale architectural overhaul of flagship SaaS applications, directly driving a 33% increase in annual revenue.",
+            "Partnered with technical executives during client presentations to define architectural roadmaps, securing over $120K in new enterprise contracts.",
+            "Optimized complex database queries, indexes, and stored procedures in MSSQL to maximize application throughput and responsiveness."
+          ]
+        },
+        {
+          role: "Software Developer",
+          company: "AKAL Information Systems Ltd",
+          location: "Jaipur, India",
+          period: "06/2014 - 12/2015",
+          bullets: [
+            "Designed and built a custom Customer Resolution Management platform using .NET MVC and jQuery, accelerating client issue resolution cycles by 25%.",
+            "Maintained and expanded core features for point-of-sale (POS) MIS systems built on ASP.NET C# and VB.",
+            "Enhanced front-end UI performance and cross-browser compatibility using JavaScript, HTML5, CSS3, and AJAX."
+          ]
+        }
+      ],
+      projects: [
+        {
+          name: "TfL Go Mobile App Backend API",
+          period: "06/2025 - Present",
+          desc: "High-concurrency serverless microservice backend powering real-time travel updates, journey planning, and station status services for millions of TfL Go mobile app users.",
+          tech: "C#, .NET 8, Azure Functions, Cosmos DB, RESTful APIs, Azure Service Bus"
+        },
+        {
+          name: "TFL AutoPay Platform",
+          period: "04/2024 - Present",
+          desc: "Automated billing and charging engine processing daily fees for Congestion Charge, ULEZ, and LEZ across fleet and consumer accounts.",
+          tech: ".NET 8, C#, Azure Functions (Service Bus & DB Triggers), Cosmos DB"
+        },
+        {
+          name: "Aviva Broker Application",
+          period: "02/2023 - 03/2024",
+          desc: "Dedicated web portal for insurance brokers and intermediaries providing real-time policy configuration, risk evaluation, and reporting.",
+          tech: ".NET 6, C#, ASP.NET MVC, Web API, PostgreSQL, JavaScript, jQuery"
+        },
+        {
+          name: "Nationwide MDC",
+          period: "08/2018 - 02/2023",
+          desc: "Centralized member data center supporting current accounts, mortgages, and savings workflows for the world's largest building society.",
+          tech: ".NET 6, C#, ASP.NET MVC, WCF, SQL Server, SSIS, InRule Engine"
+        },
+        {
+          name: "iCare Child Management System & ERP",
+          period: "01/2016 - 07/2018",
+          desc: "Cloud-based educational management suite handling enrollment, attendance, parent communication, and automated billing.",
+          tech: "C#, ASP.NET MVC, WCF, SQL Server, AngularJS, TypeScript"
+        }
+      ],
+      awards: [
+        { title: "Critical Software Engineer Talent Award", org: "Accenture Solution Pvt Ltd", date: "08/2020" },
+        { title: "Extra Mile Achiever", org: "Nationwide MDC", date: "02/2022" },
+        { title: "Project Champion", org: "Accenture Solution Pvt Ltd", date: "04/2021" }
+      ],
+      education: {
+        degree: "B. Tech in Computer Science",
+        institution: "Hindustan University",
+        location: "Chennai, India",
+        period: "2010 - 2014"
+      }
+    };
+
+    // Global Active Settings
+    let resumeData = JSON.parse(localStorage.getItem('pankaj_resume_data_v3')) || JSON.parse(JSON.stringify(initialData));
+    let currentTemplate = 'modern'; // 'modern', 'classic', 'minimal', 'split'
+    let currentColor = 'navy';     // 'navy', 'emerald', 'indigo', 'slate', 'crimson'
+    let currentDensity = 'normal'; // 'compact', 'normal', 'relaxed'
+    let currentScale = '1.0';
+    let currentTab = 'personal';
+
+    const colorThemes = {
+      navy: {
+        primary: 'bg-slate-900',
+        text: 'text-slate-900',
+        border: 'border-slate-900',
+        badge: 'bg-slate-100 text-slate-800 border-slate-300'
+      },
+      emerald: {
+        primary: 'bg-emerald-700',
+        text: 'text-emerald-700',
+        border: 'border-emerald-700',
+        badge: 'bg-emerald-50 text-emerald-800 border-emerald-300'
+      },
+      indigo: {
+        primary: 'bg-indigo-700',
+        text: 'text-indigo-700',
+        border: 'border-indigo-700',
+        badge: 'bg-indigo-50 text-indigo-800 border-indigo-300'
+      },
+      slate: {
+        primary: 'bg-slate-700',
+        text: 'text-slate-700',
+        border: 'border-slate-700',
+        badge: 'bg-slate-100 text-slate-700 border-slate-300'
+      },
+      crimson: {
+        primary: 'bg-rose-800',
+        text: 'text-rose-800',
+        border: 'border-rose-800',
+        badge: 'bg-rose-50 text-rose-800 border-rose-300'
+      }
+    };
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function saveData() {
+      localStorage.setItem('pankaj_resume_data', JSON.stringify(resumeData));
+      renderPreview();
+    }
+
+    function resetData() {
+      resumeData = JSON.parse(JSON.stringify(initialData));
+      saveData();
+      renderEditorForm();
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      ['personal', 'experience', 'projects', 'skills', 'settings'].forEach(t => {
+        const btn = document.getElementById('tab-' + t);
+        if (btn) {
+          if (t === tab) {
+            btn.className = "flex-1 min-w-[70px] py-2 px-1 text-center rounded-lg transition text-indigo-400 bg-slate-800 font-semibold";
+          } else {
+            btn.className = "flex-1 min-w-[70px] py-2 px-1 text-center rounded-lg transition hover:text-slate-200 text-slate-400";
+          }
+        }
+      });
+      renderEditorForm();
+    }
+
+    function setPrintScale(scaleVal) {
+      currentScale = scaleVal;
+      document.documentElement.style.setProperty('--print-scale', scaleVal);
+      const paper = document.getElementById('resumePreview');
+      if (paper) {
+        paper.style.transform = `scale(${scaleVal})`;
+        paper.style.transformOrigin = 'top center';
+      }
+    }
+
+    // Export Data JSON
+    function exportJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(resumeData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "resume_data.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    // Import Data JSON
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported.personal) {
+            resumeData = imported;
+            saveData();
+            renderEditorForm();
+            alert("Resume data imported successfully!");
+          } else {
+            alert("Invalid resume JSON format.");
+          }
+        } catch (err) {
+          alert("Error parsing JSON file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Render Editor Form Based on Active Tab
+    function renderEditorForm() {
+      const container = document.getElementById('editorForm');
+      if (!container) return;
+
+      if (currentTab === 'personal') {
+        const p = resumeData.personal || {};
+        container.innerHTML = `
+          <h2 class="text-sm font-bold text-slate-200 mb-3 border-b border-slate-800 pb-2">Personal & Contact Info</h2>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-slate-400 mb-1">Full Name</label>
+              <input type="text" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200 focus:border-indigo-500 outline-none" 
+                     value="${escapeHtml(p.name)}" oninput="resumeData.personal.name = this.value; saveData();">
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1">Professional Title</label>
+              <input type="text" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200 focus:border-indigo-500 outline-none" 
+                     value="${escapeHtml(p.title)}" oninput="resumeData.personal.title = this.value; saveData();">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-slate-400 mb-1">Email</label>
+                <input type="text" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200 focus:border-indigo-500 outline-none" 
+                       value="${escapeHtml(p.email)}" oninput="resumeData.personal.email = this.value; saveData();">
+              </div>
+              <div>
+                <label class="block text-slate-400 mb-1">Phone</label>
+                <input type="text" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200 focus:border-indigo-500 outline-none" 
+                       value="${escapeHtml(p.phone)}" oninput="resumeData.personal.phone = this.value; saveData();">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-slate-400 mb-1">Location</label>
+                <input type="text" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200 focus:border-indigo-500 outline-none" 
+                       value="${escapeHtml(p.location)}" oninput="resumeData.personal.location = this.value; saveData();">
+              </div>
+              <div>
+                <label class="block text-slate-400 mb-1">LinkedIn Profile</label>
+                <input type="text" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200 focus:border-indigo-500 outline-none" 
+                       value="${escapeHtml(p.linkedin)}" oninput="resumeData.personal.linkedin = this.value; saveData();">
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1">Professional Summary</label>
+              <textarea rows="4" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200 focus:border-indigo-500 outline-none" 
+                        oninput="resumeData.personal.summary = this.value; saveData();">${escapeHtml(p.summary)}</textarea>
+            </div>
+          </div>
+        `;
+      } else if (currentTab === 'experience') {
+        let html = `
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2 mb-3">
+            <h2 class="text-sm font-bold text-slate-200">Work Experience</h2>
+            <button onclick="addExperience()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded text-xs">
+              <i class="fa-solid fa-plus mr-1"></i> Add Job
+            </button>
+          </div>
+          <div class="space-y-4">
+        `;
+        (resumeData.experiences || []).forEach((exp, idx) => {
+          html += `
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 relative">
+              <button onclick="removeExperience(${idx})" class="absolute top-2 right-2 text-rose-400 hover:text-rose-300">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+              <div class="grid grid-cols-2 gap-2 pr-6">
+                <div>
+                  <label class="block text-[10px] text-slate-400">Role Title</label>
+                  <input type="text" value="${escapeHtml(exp.role)}" oninput="resumeData.experiences[${idx}].role = this.value; saveData();" 
+                         class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-200">
+                </div>
+                <div>
+                  <label class="block text-[10px] text-slate-400">Company Name</label>
+                  <input type="text" value="${escapeHtml(exp.company)}" oninput="resumeData.experiences[${idx}].company = this.value; saveData();" 
+                         class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-200">
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[10px] text-slate-400">Period (e.g. 04/2024 - Present)</label>
+                  <input type="text" value="${escapeHtml(exp.period)}" oninput="resumeData.experiences[${idx}].period = this.value; saveData();" 
+                         class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-200">
+                </div>
+                <div>
+                  <label class="block text-[10px] text-slate-400">Location</label>
+                  <input type="text" value="${escapeHtml(exp.location)}" oninput="resumeData.experiences[${idx}].location = this.value; saveData();" 
+                         class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-200">
+                </div>
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-400">Bullet Points (One per line)</label>
+                <textarea rows="3" oninput="resumeData.experiences[${idx}].bullets = this.value.split('\\n').filter(b => b.trim()); saveData();" 
+                          class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-200">${(exp.bullets || []).join('\n')}</textarea>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+      } else if (currentTab === 'projects') {
+        let html = `
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2 mb-3">
+            <h2 class="text-sm font-bold text-slate-200">Key Projects</h2>
+            <button onclick="addProject()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded text-xs">
+              <i class="fa-solid fa-plus mr-1"></i> Add Project
+            </button>
+          </div>
+          <div class="space-y-4">
+        `;
+        (resumeData.projects || []).forEach((proj, idx) => {
+          html += `
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 relative">
+              <button onclick="removeProject(${idx})" class="absolute top-2 right-2 text-rose-400 hover:text-rose-300">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+              <div class="pr-6">
+                <label class="block text-[10px] text-slate-400">Project Name</label>
+                <input type="text" value="${escapeHtml(proj.name)}" oninput="resumeData.projects[${idx}].name = this.value; saveData();" 
+                       class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-200">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-400">Period / Dates</label>
+                <input type="text" value="${escapeHtml(proj.period)}" oninput="resumeData.projects[${idx}].period = this.value; saveData();" 
+                       class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-200">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-400">Description</label>
+                <textarea rows="2" oninput="resumeData.projects[${idx}].desc = this.value; saveData();" 
+                          class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-200">${escapeHtml(proj.desc)}</textarea>
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-400">Technologies Used</label>
+                <input type="text" value="${escapeHtml(proj.tech)}" oninput="resumeData.projects[${idx}].tech = this.value; saveData();" 
+                       class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-200">
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+      } else if (currentTab === 'skills') {
+        container.innerHTML = `
+          <h2 class="text-sm font-bold text-slate-200 mb-3 border-b border-slate-800 pb-2">Skills & Expertise</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-slate-400 mb-1">Areas of Expertise (Comma Separated)</label>
+              <textarea rows="3" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200"
+                        oninput="resumeData.expertise = this.value.split(',').map(s => s.trim()).filter(Boolean); saveData();">${(resumeData.expertise || []).join(', ')}</textarea>
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1">Technical Skills & Tools (Comma Separated)</label>
+              <textarea rows="4" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200"
+                        oninput="resumeData.skills = this.value.split(',').map(s => s.trim()).filter(Boolean); saveData();">${(resumeData.skills || []).join(', ')}</textarea>
+            </div>
+            <div class="border-t border-slate-800 pt-3">
+              <h3 class="text-xs font-bold text-slate-300 mb-2">Education</h3>
+              <div class="space-y-2">
+                <input type="text" placeholder="Degree" value="${escapeHtml(resumeData.education.degree)}" oninput="resumeData.education.degree = this.value; saveData();" class="w-full bg-slate-950 border border-slate-800 rounded p-1.5 text-slate-200">
+                <input type="text" placeholder="Institution" value="${escapeHtml(resumeData.education.institution)}" oninput="resumeData.education.institution = this.value; saveData();" class="w-full bg-slate-950 border border-slate-800 rounded p-1.5 text-slate-200">
+                <div class="grid grid-cols-2 gap-2">
+                  <input type="text" placeholder="Period" value="${escapeHtml(resumeData.education.period)}" oninput="resumeData.education.period = this.value; saveData();" class="w-full bg-slate-950 border border-slate-800 rounded p-1.5 text-slate-200">
+                  <input type="text" placeholder="Location" value="${escapeHtml(resumeData.education.location)}" oninput="resumeData.education.location = this.value; saveData();" class="w-full bg-slate-950 border border-slate-800 rounded p-1.5 text-slate-200">
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (currentTab === 'settings') {
+        container.innerHTML = `
+          <h2 class="text-sm font-bold text-slate-200 mb-3 border-b border-slate-800 pb-2">Layout & Format Settings</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-slate-400 mb-2 font-medium">Select Resume Template Format</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="setTemplate('modern')" class="p-2 rounded border text-left ${currentTemplate === 'modern' ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300' : 'border-slate-800 bg-slate-950 text-slate-400'}">
+                  <div class="font-bold">Modern Executive</div>
+                  <div class="text-[10px] text-slate-500">2-Column with Header Line</div>
+                </button>
+                <button onclick="setTemplate('classic')" class="p-2 rounded border text-left ${currentTemplate === 'classic' ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300' : 'border-slate-800 bg-slate-950 text-slate-400'}">
+                  <div class="font-bold">Classic ATS</div>
+                  <div class="text-[10px] text-slate-500">Traditional Centered Layout</div>
+                </button>
+                <button onclick="setTemplate('minimal')" class="p-2 rounded border text-left ${currentTemplate === 'minimal' ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300' : 'border-slate-800 bg-slate-950 text-slate-400'}">
+                  <div class="font-bold">Minimalist Clean</div>
+                  <div class="text-[10px] text-slate-500">Left Accent & Clean Fonts</div>
+                </button>
+                <button onclick="setTemplate('split')" class="p-2 rounded border text-left ${currentTemplate === 'split' ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300' : 'border-slate-800 bg-slate-950 text-slate-400'}">
+                  <div class="font-bold">Split Header</div>
+                  <div class="text-[10px] text-slate-500">Bold Top Primary Banner</div>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-400 mb-2 font-medium">Accent Color Theme</label>
+              <div class="flex gap-3">
+                ${Object.keys(colorThemes).map(c => `
+                  <button onclick="setColor('${c}')" class="w-7 h-7 rounded-full border-2 ${currentColor === c ? 'border-white scale-110' : 'border-transparent'} ${colorThemes[c].primary}"></button>
+                `).join('')}
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-400 mb-2 font-medium">Text Density & Spacing</label>
+              <div class="flex gap-2">
+                <button onclick="setDensity('compact')" class="flex-1 py-1.5 rounded border text-center ${currentDensity === 'compact' ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300' : 'border-slate-800 bg-slate-950 text-slate-400'}">Compact</button>
+                <button onclick="setDensity('normal')" class="flex-1 py-1.5 rounded border text-center ${currentDensity === 'normal' ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300' : 'border-slate-800 bg-slate-950 text-slate-400'}">Normal</button>
+                <button onclick="setDensity('relaxed')" class="flex-1 py-1.5 rounded border text-center ${currentDensity === 'relaxed' ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300' : 'border-slate-800 bg-slate-950 text-slate-400'}">Relaxed</button>
+              </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-3">
+              <label class="block text-slate-400 mb-2 font-medium">Print Page Break Optimization Tips</label>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc pl-4">
+                <li>If 2-3 lines spill onto Page 2, set <strong>Fit Scale to 95% or 90%</strong> in the top toolbar.</li>
+                <li>Switch Density to <strong>Compact</strong> to fit a dense 2-page resume onto 1 single page cleanly.</li>
+                <li>Ensure Chrome/Edge print settings have <strong>Margins set to Default</strong>.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Dynamic Item Handlers
+    function addExperience() {
+      if (!resumeData.experiences) resumeData.experiences = [];
+      resumeData.experiences.unshift({
+        role: "Software Developer",
+        company: "Company Name",
+        location: "Location",
+        period: "2024 - Present",
+        bullets: ["Added new technical responsibility or key deliverable."]
+      });
+      saveData();
+      renderEditorForm();
+    }
+
+    function removeExperience(idx) {
+      resumeData.experiences.splice(idx, 1);
+      saveData();
+      renderEditorForm();
+    }
+
+    function addProject() {
+      if (!resumeData.projects) resumeData.projects = [];
+      resumeData.projects.push({
+        name: "New Project",
+        period: "2024",
+        desc: "Key project overview and impact description.",
+        tech: ".NET, C#, SQL Server"
+      });
+      saveData();
+      renderEditorForm();
+    }
+
+    function removeProject(idx) {
+      resumeData.projects.splice(idx, 1);
+      saveData();
+      renderEditorForm();
+    }
+
+    function setTemplate(tpl) { currentTemplate = tpl; renderEditorForm(); renderPreview(); }
+    function setColor(clr) { currentColor = clr; renderEditorForm(); renderPreview(); }
+    function setDensity(den) { currentDensity = den; renderEditorForm(); renderPreview(); }
+
+    // Render 1: Modern Executive Template
+    function renderModernTemplate(theme) {
+      const p = resumeData.personal || {};
+      return `
+        <div class="density-${currentDensity} font-sans space-y-5">
+          <!-- Header -->
+          <div class="flex items-center justify-between border-b-2 pb-4 ${theme.border}">
+            <div>
+              <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">${escapeHtml(p.name)}</h1>
+              <p class="text-base font-semibold ${theme.text} mt-0.5">${escapeHtml(p.title)}</p>
+            </div>
+            <div class="text-right text-xs text-slate-600 space-y-1">
+              ${p.email ? `<p><i class="fa-solid fa-envelope ${theme.text} mr-1"></i>${escapeHtml(p.email)}</p>` : ''}
+              ${p.phone ? `<p><i class="fa-solid fa-phone ${theme.text} mr-1"></i>${escapeHtml(p.phone)}</p>` : ''}
+              ${p.location ? `<p><i class="fa-solid fa-location-dot ${theme.text} mr-1"></i>${escapeHtml(p.location)}</p>` : ''}
+              ${p.linkedin ? `<p><i class="fa-brands fa-linkedin ${theme.text} mr-1"></i>${escapeHtml(p.linkedin)}</p>` : ''}
+            </div>
+          </div>
+
+          <!-- Summary -->
+          ${p.summary ? `
+          <div class="break-inside-avoid">
+            <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} mb-1.5 flex items-center gap-1.5 border-b pb-1">
+              <i class="fa-solid fa-user"></i> Professional Summary
+            </h2>
+            <p class="text-xs text-slate-700 leading-relaxed">${escapeHtml(p.summary)}</p>
+          </div>` : ''}
+
+          <!-- Grid Columns -->
+          <div class="grid grid-cols-12 gap-6 print-grid-flow">
+            
+            <!-- Left Main Column (8 cols) -->
+            <div class="col-span-8 space-y-5">
+              
+              <!-- Work Experience Table with Auto-Repeating Header -->
+              <table class="print-section-table w-full text-left">
+                <thead>
+                  <tr>
+                    <th class="font-normal pb-2">
+                      <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} flex items-center gap-2 border-b pb-1">
+                        <i class="fa-solid fa-briefcase"></i> Work Experience
+                      </h2>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${(resumeData.experiences || []).map(exp => `
+                    <tr>
+                      <td class="pb-3 align-top">
+                        <div class="experience-card break-inside-avoid">
+                          <div class="flex justify-between items-baseline">
+                            <h3 class="text-xs font-bold text-slate-800">${escapeHtml(exp.role)}</h3>
+                            <span class="text-[10px] font-medium text-slate-500">${escapeHtml(exp.period)}</span>
+                          </div>
+                          <p class="text-xs font-semibold ${theme.text}">${escapeHtml(exp.company)} <span class="text-slate-400 font-normal">| ${escapeHtml(exp.location)}</span></p>
+                          <ul class="mt-1 list-disc list-outside pl-4 text-xs text-slate-600 space-y-0.5">
+                            ${(exp.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join('')}
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+
+              <!-- Projects Table with Auto-Repeating Header -->
+              <table class="print-section-table w-full text-left">
+                <thead>
+                  <tr>
+                    <th class="font-normal pb-2">
+                      <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} flex items-center gap-2 border-b pb-1">
+                        <i class="fa-solid fa-diagram-project"></i> Key Projects
+                      </h2>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${(resumeData.projects || []).map(proj => `
+                    <tr>
+                      <td class="pb-2.5 align-top">
+                        <div class="project-card break-inside-avoid">
+                          <div class="flex justify-between items-baseline">
+                            <h3 class="text-xs font-bold text-slate-800">${escapeHtml(proj.name)}</h3>
+                            <span class="text-[10px] text-slate-400">${escapeHtml(proj.period)}</span>
+                          </div>
+                          <p class="text-xs text-slate-600 mt-0.5">${escapeHtml(proj.desc)}</p>
+                          ${proj.tech ? `<p class="text-[10px] ${theme.text} font-mono mt-0.5"><strong>Tech:</strong> ${escapeHtml(proj.tech)}</p>` : ''}
+                        </div>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Right Sidebar Column (4 cols) -->
+            <div class="col-span-4 space-y-5">
+              ${(resumeData.expertise && resumeData.expertise.length) ? `
+              <div class="break-inside-avoid">
+                <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} mb-2 flex items-center gap-1.5 border-b pb-1">
+                  <i class="fa-solid fa-star"></i> Core Expertise
+                </h2>
+                <div class="flex flex-wrap gap-1">
+                  ${resumeData.expertise.map(e => `<span class="text-[10px] px-1.5 py-0.5 rounded ${theme.badge} border">${escapeHtml(e)}</span>`).join('')}
+                </div>
+              </div>` : ''}
+
+              ${(resumeData.skills && resumeData.skills.length) ? `
+              <div class="break-inside-avoid">
+                <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} mb-2 flex items-center gap-1.5 border-b pb-1">
+                  <i class="fa-solid fa-code"></i> Technical Stack
+                </h2>
+                <div class="flex flex-wrap gap-1">
+                  ${resumeData.skills.map(s => `<span class="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded border border-slate-200">${escapeHtml(s)}</span>`).join('')}
+                </div>
+              </div>` : ''}
+
+              ${resumeData.education ? `
+              <div class="break-inside-avoid">
+                <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} mb-2 flex items-center gap-1.5 border-b pb-1">
+                  <i class="fa-solid fa-graduation-cap"></i> Education
+                </h2>
+                <p class="text-xs font-bold text-slate-800">${escapeHtml(resumeData.education.degree)}</p>
+                <p class="text-xs text-slate-600">${escapeHtml(resumeData.education.institution)}</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">${escapeHtml(resumeData.education.period)} | ${escapeHtml(resumeData.education.location)}</p>
+              </div>` : ''}
+
+              ${(resumeData.awards && resumeData.awards.length) ? `
+              <div class="break-inside-avoid">
+                <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} mb-2 flex items-center gap-1.5 border-b pb-1">
+                  <i class="fa-solid fa-trophy"></i> Awards
+                </h2>
+                <div class="space-y-1.5">
+                  ${resumeData.awards.map(a => `
+                    <div>
+                      <p class="text-xs font-semibold text-slate-800">${escapeHtml(a.title)}</p>
+                      <p class="text-[10px] text-slate-500">${escapeHtml(a.org)} ${a.date ? `(${escapeHtml(a.date)})` : ''}</p>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>` : ''}
+            </div>
+
+          </div>
+        </div>
+      `;
+    }
+
+    // Render 2: Classic ATS Template
+    function renderClassicTemplate(theme) {
+      const p = resumeData.personal || {};
+      return `
+        <div class="density-${currentDensity} font-sans space-y-4">
+          <div class="text-center border-b-2 pb-3 ${theme.border}">
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900 uppercase">${escapeHtml(p.name)}</h1>
+            <p class="text-xs font-semibold ${theme.text} mt-0.5">${escapeHtml(p.title)}</p>
+            <div class="flex flex-wrap justify-center gap-2 text-xs text-slate-600 mt-1.5">
+              ${p.email ? `<span><i class="fa-solid fa-envelope mr-1"></i>${escapeHtml(p.email)}</span>` : ''}
+              ${p.phone ? `<span>• <i class="fa-solid fa-phone mr-1"></i>${escapeHtml(p.phone)}</span>` : ''}
+              ${p.location ? `<span>• <i class="fa-solid fa-location-dot mr-1"></i>${escapeHtml(p.location)}</span>` : ''}
+              ${p.linkedin ? `<span>• <i class="fa-brands fa-linkedin mr-1"></i>${escapeHtml(p.linkedin)}</span>` : ''}
+            </div>
+          </div>
+
+          ${p.summary ? `
+          <div class="break-inside-avoid">
+            <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} border-b border-slate-200 pb-0.5 mb-1">Summary</h2>
+            <p class="text-xs text-slate-700 leading-relaxed">${escapeHtml(p.summary)}</p>
+          </div>` : ''}
+
+          <!-- Work Experience Table -->
+          <table class="print-section-table w-full text-left">
+            <thead>
+              <tr>
+                <th class="font-normal pb-2">
+                  <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} border-b border-slate-200 pb-0.5">Work Experience</h2>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(resumeData.experiences || []).map(exp => `
+                <tr>
+                  <td class="pb-3 align-top">
+                    <div class="experience-card break-inside-avoid">
+                      <div class="flex justify-between items-baseline">
+                        <span class="text-xs font-bold text-slate-800">${escapeHtml(exp.role)} — <span class="${theme.text}">${escapeHtml(exp.company)}</span></span>
+                        <span class="text-[10px] text-slate-500">${escapeHtml(exp.period)} | ${escapeHtml(exp.location)}</span>
+                      </div>
+                      <ul class="mt-1 list-disc list-outside pl-4 text-xs text-slate-700 space-y-0.5">
+                        ${(exp.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join('')}
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <!-- Technical Skills -->
+          ${(resumeData.skills && resumeData.skills.length) ? `
+          <div class="break-inside-avoid">
+            <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} border-b border-slate-200 pb-0.5 mb-1">Technical Skills</h2>
+            <p class="text-xs text-slate-700">${resumeData.skills.map(s => escapeHtml(s)).join(' • ')}</p>
+          </div>` : ''}
+
+          <!-- Projects Table -->
+          <table class="print-section-table w-full text-left">
+            <thead>
+              <tr>
+                <th class="font-normal pb-2">
+                  <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} border-b border-slate-200 pb-0.5">Projects</h2>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(resumeData.projects || []).map(proj => `
+                <tr>
+                  <td class="pb-2.5 align-top">
+                    <div class="project-card break-inside-avoid">
+                      <div class="flex justify-between items-baseline">
+                        <span class="text-xs font-bold text-slate-800">${escapeHtml(proj.name)}</span>
+                        <span class="text-[10px] text-slate-500">${escapeHtml(proj.period)}</span>
+                      </div>
+                      <p class="text-xs text-slate-700">${escapeHtml(proj.desc)}</p>
+                      ${proj.tech ? `<p class="text-[10px] text-slate-500 font-mono">Technologies: ${escapeHtml(proj.tech)}</p>` : ''}
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <!-- Education & Awards Grid -->
+          <div class="grid grid-cols-2 gap-4 print-grid-flow">
+            ${resumeData.education ? `
+            <div class="break-inside-avoid">
+              <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} border-b border-slate-200 pb-0.5 mb-1">Education</h2>
+              <p class="text-xs font-bold text-slate-800">${escapeHtml(resumeData.education.degree)}</p>
+              <p class="text-xs text-slate-600">${escapeHtml(resumeData.education.institution)} (${escapeHtml(resumeData.education.period)})</p>
+            </div>` : ''}
+
+            ${(resumeData.awards && resumeData.awards.length) ? `
+            <div class="break-inside-avoid">
+              <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} border-b border-slate-200 pb-0.5 mb-1">Honors & Awards</h2>
+              ${resumeData.awards.map(a => `<p class="text-xs text-slate-700"><strong>${escapeHtml(a.title)}</strong> - ${escapeHtml(a.org)} (${escapeHtml(a.date)})</p>`).join('')}
+            </div>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    // Render 3: Minimalist Clean Template
+    function renderMinimalTemplate(theme) {
+      const p = resumeData.personal || {};
+      return `
+        <div class="density-${currentDensity} font-sans space-y-5">
+          <div class="border-l-4 ${theme.border} pl-3 py-0.5">
+            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">${escapeHtml(p.name)}</h1>
+            <p class="text-sm font-medium ${theme.text}">${escapeHtml(p.title)}</p>
+            <div class="flex flex-wrap gap-3 text-xs text-slate-500 mt-1.5">
+              ${p.email ? `<span><i class="fa-regular fa-envelope mr-1"></i>${escapeHtml(p.email)}</span>` : ''}
+              ${p.phone ? `<span><i class="fa-solid fa-mobile-screen mr-1"></i>${escapeHtml(p.phone)}</span>` : ''}
+              ${p.location ? `<span><i class="fa-solid fa-location-arrow mr-1"></i>${escapeHtml(p.location)}</span>` : ''}
+            </div>
+          </div>
+
+          ${p.summary ? `
+          <div class="break-inside-avoid bg-slate-50 p-2.5 rounded-r border-l-2 ${theme.border}">
+            <p class="text-xs text-slate-700 leading-relaxed">${escapeHtml(p.summary)}</p>
+          </div>` : ''}
+
+          <!-- Experience Table -->
+          <table class="print-section-table w-full text-left">
+            <thead>
+              <tr>
+                <th class="font-normal pb-2">
+                  <h2 class="text-xs font-black uppercase tracking-widest text-slate-400">01. Experience</h2>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(resumeData.experiences || []).map(exp => `
+                <tr>
+                  <td class="pb-3 align-top">
+                    <div class="experience-card break-inside-avoid border-l-2 border-slate-100 pl-2.5">
+                      <div class="flex justify-between items-baseline">
+                        <span class="text-xs font-bold text-slate-800">${escapeHtml(exp.role)} <span class="${theme.text}">@ ${escapeHtml(exp.company)}</span></span>
+                        <span class="text-[10px] font-mono text-slate-400">${escapeHtml(exp.period)}</span>
+                      </div>
+                      <ul class="mt-1 list-disc list-outside pl-4 text-xs text-slate-600 space-y-0.5">
+                        ${(exp.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join('')}
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <!-- Projects Table -->
+          <table class="print-section-table w-full text-left">
+            <thead>
+              <tr>
+                <th class="font-normal pb-2">
+                  <h2 class="text-xs font-black uppercase tracking-widest text-slate-400">02. Projects</h2>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(resumeData.projects || []).map(proj => `
+                <tr>
+                  <td class="pb-2.5 align-top">
+                    <div class="project-card break-inside-avoid border border-slate-100 p-2 rounded bg-slate-50/50">
+                      <div class="flex justify-between items-baseline">
+                        <span class="text-xs font-bold text-slate-800">${escapeHtml(proj.name)}</span>
+                        <span class="text-[10px] font-mono text-slate-400">${escapeHtml(proj.period)}</span>
+                      </div>
+                      <p class="text-xs text-slate-600 mt-0.5">${escapeHtml(proj.desc)}</p>
+                      ${proj.tech ? `<p class="text-[10px] ${theme.text} font-mono mt-0.5">${escapeHtml(proj.tech)}</p>` : ''}
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <!-- Skills & Education Grid -->
+          <div class="grid grid-cols-2 gap-4 break-inside-avoid print-grid-flow">
+            <div>
+              <h2 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5">03. Technical Stack</h2>
+              <div class="flex flex-wrap gap-1">
+                ${(resumeData.skills || []).map(s => `<span class="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded border border-slate-200">${escapeHtml(s)}</span>`).join('')}
+              </div>
+            </div>
+            <div>
+              <h2 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5">04. Education</h2>
+              ${resumeData.education ? `
+                <p class="text-xs font-bold text-slate-800">${escapeHtml(resumeData.education.degree)}</p>
+                <p class="text-xs text-slate-600">${escapeHtml(resumeData.education.institution)} (${escapeHtml(resumeData.education.period)})</p>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Render 4: Split Header Template
+    function renderSplitTemplate(theme) {
+      const p = resumeData.personal || {};
+      return `
+        <div class="density-${currentDensity} font-sans">
+          <div class="${theme.primary} text-white -mx-14 -mt-12 p-6 mb-5">
+            <div class="flex justify-between items-center">
+              <div>
+                <h1 class="text-2xl font-extrabold tracking-tight">${escapeHtml(p.name)}</h1>
+                <p class="text-sm font-medium opacity-90 mt-0.5">${escapeHtml(p.title)}</p>
+              </div>
+              <div class="text-right text-xs opacity-90 space-y-0.5">
+                ${p.email ? `<p><i class="fa-solid fa-envelope mr-1"></i>${escapeHtml(p.email)}</p>` : ''}
+                ${p.phone ? `<p><i class="fa-solid fa-phone mr-1"></i>${escapeHtml(p.phone)}</p>` : ''}
+                ${p.location ? `<p><i class="fa-solid fa-map-pin mr-1"></i>${escapeHtml(p.location)}</p>` : ''}
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            ${p.summary ? `
+            <div class="break-inside-avoid">
+              <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} border-b pb-0.5 mb-1">About Me</h2>
+              <p class="text-xs text-slate-700 leading-relaxed">${escapeHtml(p.summary)}</p>
+            </div>` : ''}
+
+            <table class="print-section-table w-full text-left">
+              <thead>
+                <tr>
+                  <th class="font-normal pb-2">
+                    <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} border-b pb-0.5">Work History</h2>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                ${(resumeData.experiences || []).map(exp => `
+                  <tr>
+                    <td class="pb-3 align-top">
+                      <div class="experience-card break-inside-avoid bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <div class="flex justify-between items-start">
+                          <h3 class="text-xs font-bold text-slate-800">${escapeHtml(exp.role)}</h3>
+                          <span class="text-[10px] font-semibold ${theme.text}">${escapeHtml(exp.period)}</span>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-600 mt-0.5">${escapeHtml(exp.company)} — <span class="font-normal">${escapeHtml(exp.location)}</span></p>
+                        <ul class="mt-1 list-disc list-outside pl-4 text-xs text-slate-600 space-y-0.5">
+                          ${(exp.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join('')}
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+
+            <table class="print-section-table w-full text-left">
+              <thead>
+                <tr>
+                  <th class="font-normal pb-2">
+                    <h2 class="text-xs font-bold uppercase tracking-wider ${theme.text} border-b pb-0.5">Projects</h2>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                ${(resumeData.projects || []).map(proj => `
+                  <tr>
+                    <td class="pb-2.5 align-top">
+                      <div class="project-card break-inside-avoid bg-white p-2.5 rounded border border-slate-200">
+                        <div class="flex justify-between items-baseline">
+                          <h3 class="text-xs font-bold text-slate-800">${escapeHtml(proj.name)}</h3>
+                          <span class="text-[10px] text-slate-400">${escapeHtml(proj.period)}</span>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-0.5">${escapeHtml(proj.desc)}</p>
+                        ${proj.tech ? `<p class="text-[10px] ${theme.text} font-mono mt-0.5">Tech: ${escapeHtml(proj.tech)}</p>` : ''}
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    // Main Preview Renderer
+    function renderPreview() {
+      const container = document.getElementById('resumePreview');
+      if (!container) return;
+
+      const theme = colorThemes[currentColor] || colorThemes.navy;
+      let html = '';
+
+      if (currentTemplate === 'classic') {
+        html = renderClassicTemplate(theme);
+      } else if (currentTemplate === 'minimal') {
+        html = renderMinimalTemplate(theme);
+      } else if (currentTemplate === 'split') {
+        html = renderSplitTemplate(theme);
+      } else {
+        html = renderModernTemplate(theme);
+      }
+
+      container.innerHTML = html;
+    }
+
+    // Initial load handler
+    window.onload = function() {
+      renderEditorForm();
+      renderPreview();
+    };
+  </script>
+</body>
+</html>

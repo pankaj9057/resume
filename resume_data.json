@@ -1,0 +1,158 @@
+{
+  "personal": {
+    "name": "PANKAJ KUMAR",
+    "title": "Senior .NET Developer / Technical Lead",
+    "email": "pankaj9057@gmail.com",
+    "phone": "+44 7879280471",
+    "location": "Swindon, UK",
+    "linkedin": "linkedin.com/in/pankaj9057",
+    "summary": "Accomplished Senior .NET Developer with over 12 years of experience architecting, engineering, and scaling high-performance enterprise applications and cloud-native solutions. Proven expert in C#, .NET 10, Azure serverless microservices, and high-concurrency APIs powering critical UK public infrastructure and financial systems. Track record of successfully leading cross-functional Agile teams, modernizing complex legacy platforms, and optimizing database performance."
+  },
+  "expertise": [
+    "Cloud-Native Azure Architecture",
+    "Enterprise Microservices",
+    "High-Concurrency API Design",
+    "Legacy Platform Modernization",
+    "Database Performance Tuning",
+    "Technical Team Leadership",
+    "Agile & Scrum Delivery",
+    "TDD, BDD & Quality Assurance",
+    "CI/CD & DevOps Integration"
+  ],
+  "skills": [
+    ".NET 8 / .NET Core",
+    "C#",
+    "ASP.NET Core MVC",
+    "Web API / RESTful Services",
+    "Azure Functions",
+    "Neo4j",
+    "Cosmos DB",
+    "MSSQL Server",
+    "Entity Framework Core",
+    "Azure Service Bus",
+    "Microservices Architecture",
+    "PostgreSQL",
+    "WCF / ADO.NET",
+    "JavaScript / jQuery",
+    "HTML5 / CSS3 / Bootstrap",
+    "xUnit / NUnit / Moq",
+    "SSIS / SSRS",
+    "Git / Azure DevOps",
+    "CI/CD Pipelines"
+  ],
+  "experiences": [
+    {
+      "role": "Senior Developer",
+      "company": "Transport for London",
+      "location": "London (North Greenwich)",
+      "period": "04/2024 - Present",
+      "bullets": [
+        "Architected and deployed cloud-native serverless Azure Function microservices (C# / .NET 10) powering the TfL Go mobile app backend, serving real-time journey planning and status updates to millions of daily active commuters.",
+        "Engineered high-throughput Cosmos DB data models and custom partition key strategies, maintaining sub-second API response latencies during peak concurrency.",
+        "Developed and enhanced core modules for Personal and Fleet AutoPay platforms handling Congestion Charge, LEZ, and ULEZ compliance.",
+        "Spearheaded the end-to-end modernization and migration of 20+ legacy components to .NET 10, achieving a 25% reduction in cloud compute costs and accelerating throughput.",
+        "Led root-cause analysis and complex technical troubleshooting across mission-critical transport infrastructure, consistently meeting strict enterprise SLAs."
+      ]
+    },
+    {
+      "role": "Software Engineer",
+      "company": "Aviva",
+      "location": "Swindon / Norwich",
+      "period": "02/2023 - 03/2024",
+      "bullets": [
+        "Engineered scalable, high-availability software solutions within an Agile team supporting core insurance platforms.",
+        "Modernized 20+ legacy backend components of the Broker platform to .NET 6, decreasing transaction processing latency by 30% and eliminating technical debt.",
+        "Designed and implemented custom operational reporting solutions for broker intermediaries, boosting overall operational efficiency by ~10%."
+      ]
+    },
+    {
+      "role": "Full Stack .Net Developer / Team Lead",
+      "company": "Accenture Solution Pvt. Ltd",
+      "location": "Gurugram / Swindon",
+      "period": "08/2018 - 02/2023",
+      "bullets": [
+        "Served as Technical Lead guiding cross-functional onshore and offshore engineering teams in delivering financial application services for Nationwide MDC.",
+        "Architected robust, scalable backend services utilizing .NET Core, WCF, and SQL Server to process core banking, mortgage, and savings workflows.",
+        "Established comprehensive technical documentation and system architecture guidelines, cutting new engineer onboarding time by 40%.",
+        "Monitored production environments periodically to identify performance bottlenecks and execute targeted refactoring initiatives."
+      ]
+    },
+    {
+      "role": "MVC .Net Senior Software Developer",
+      "company": "Orgamation Technologies",
+      "location": "Jaipur, India",
+      "period": "01/2016 - 07/2018",
+      "bullets": [
+        "Supervised a team of 5 software engineers during a full-scale architectural overhaul of flagship SaaS applications, directly driving a 33% increase in annual revenue.",
+        "Partnered with technical executives during client presentations to define architectural roadmaps, securing over $120K in new enterprise contracts.",
+        "Optimized complex database queries, indexes, and stored procedures in MSSQL to maximize application throughput and responsiveness."
+      ]
+    },
+    {
+      "role": "Software Developer",
+      "company": "AKAL Information Systems Ltd",
+      "location": "Jaipur, India",
+      "period": "06/2014 - 12/2015",
+      "bullets": [
+        "Designed and built a custom Customer Resolution Management platform using .NET MVC and jQuery, accelerating client issue resolution cycles by 25%.",
+        "Maintained and expanded core features for point-of-sale (POS) MIS systems built on ASP.NET C# and VB.",
+        "Enhanced front-end UI performance and cross-browser compatibility using JavaScript, HTML5, CSS3, and AJAX."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "TfL Go Mobile App Backend API",
+      "period": "06/2025 - Present",
+      "desc": "High-concurrency serverless microservice backend powering real-time travel updates, journey planning, and station status services for millions of TfL Go mobile app users.",
+      "tech": "C#, .NET 8, Azure Functions, Cosmos DB, RESTful APIs, Azure Service Bus"
+    },
+    {
+      "name": "TFL AutoPay Platform",
+      "period": "04/2024 - 06/2025",
+      "desc": "Automated billing and charging engine processing daily fees for Congestion Charge, ULEZ, and LEZ across fleet and consumer accounts.",
+      "tech": ".NET 8, C#, Azure Functions (Service Bus & DB Triggers), Cosmos DB"
+    },
+    {
+      "name": "Aviva Broker Application",
+      "period": "02/2023 - 03/2024",
+      "desc": "Dedicated web portal for insurance brokers and intermediaries providing real-time policy configuration, risk evaluation, and reporting.",
+      "tech": ".NET 6, C#, ASP.NET MVC, Web API, PostgreSQL, JavaScript, jQuery"
+    },
+    {
+      "name": "Nationwide MDC",
+      "period": "08/2018 - 02/2023",
+      "desc": "Centralized member data center supporting current accounts, mortgages, and savings workflows for the world's largest building society.",
+      "tech": ".NET 6, C#, ASP.NET MVC, WCF, SQL Server, SSIS, InRule Engine"
+    },
+    {
+      "name": "iCare Child Management System & ERP",
+      "period": "01/2016 - 07/2018",
+      "desc": "Cloud-based educational management suite handling enrollment, attendance, parent communication, and automated billing.",
+      "tech": "C#, ASP.NET MVC, WCF, SQL Server, AngularJS, TypeScript"
+    }
+  ],
+  "awards": [
+    {
+      "title": "Critical Software Engineer Talent Award",
+      "org": "Accenture Solution Pvt Ltd",
+      "date": "08/2020"
+    },
+    {
+      "title": "Extra Mile Achiever",
+      "org": "Nationwide MDC",
+      "date": "02/2022"
+    },
+    {
+      "title": "Project Champion",
+      "org": "Accenture Solution Pvt Ltd",
+      "date": "04/2021"
+    }
+  ],
+  "education": {
+    "degree": "B. Tech in Computer Science",
+    "institution": "Hindustan University",
+    "location": "Chennai, India",
+    "period": "2010 - 2014"
+  }
+}
